@@ -1,5 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const MongoClient = require('mongodb').MongoClient;
+const mongodb = require('./db/connect');
 const professionalRoutes = require('./routes/professional');
 
 const app = express();
@@ -15,6 +18,11 @@ app.use((req, res, next) => {
 
 app.use('/professional', professionalRoutes);
 
-app.listen(PORT, () => {
-    console.log('Web server is listening at port ' + PORT);
+mongodb.initDb((err, mongodb) => {
+    if (err) {
+        console.log(err);
+    } else {
+        app.listen(PORT);
+        console.log(`Connected to DB and listening on ${PORT}`);
+    }
 });
