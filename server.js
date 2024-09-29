@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const mongodb = require('./db/connect');
 const professionalRoutes = require('./routes/professional');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -17,6 +18,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/professional', professionalRoutes);
+app.use(cors());
 
 mongodb.initDb((err, mongodb) => {
     if (err) {
